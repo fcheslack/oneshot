@@ -6,18 +6,18 @@ Tool to take a snapshot of a web page and dump it into a single html file, takin
 This is still just a first pass implementation and still has a number of problems. The saving strategy and concerns were influenced by the paper describing webpagedump http://www.dbai.tuwien.ac.at/user/pollak/webpagedump/ .
 
 Current Implementation:
-   SnapshotLocal or SnapshotRemote, indicates where to read the file from and how to treat relative paths inside the document
-   read the local file or GET the remote file. at the moment, remote runs RunPhantom and uses files output by Phantomjs
-   parse the content into a gokogiri DOM document
-   call processDocument:
-       fixupScripts: fetches and inlines any remote scripts
-       remove script tags (alternative: neuter script tags)
-       fixupCss: 
-           expand CSS urls for styles that are already inline
-           fetch remote CSS, change from link to style elements, expand urls to absolute, and inline the content
-       findImageReferences (populate keys in our imageData map for later fetching of values):
-           src attribute from img elements
-           values inside url() in style elements
-       fetch the files referenced by each key in the imageData map, datafy it, and save it as the value in imageData map
-       go back through document and replace img src and css url() references with the data urls
-   write out the document to a file
+- SnapshotLocal or SnapshotRemote, indicates where to read the file from and how to treat relative paths inside the document
+- read the local file or GET the remote file. at the moment, remote runs RunPhantom and uses files output by Phantomjs
+- parse the content into a gokogiri DOM document
+- call processDocument:
+    - fixupScripts: fetches and inlines any remote scripts
+    - remove script tags (alternative: neuter script tags)
+    - fixupCss: 
+        - expand CSS urls for styles that are already inline
+        - fetch remote CSS, change from link to style elements, expand urls to absolute, and inline the content
+    - findImageReferences (populate keys in our imageData map for later fetching of values):
+        - src attribute from img elements
+        - values inside url() in style elements
+    - fetch the files referenced by each key in the imageData map, datafy it, and save it as the value in imageData map
+    - go back through document and replace img src and css url() references with the data urls
+- write out the document to a file
